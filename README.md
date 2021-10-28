@@ -20,5 +20,9 @@ A successful POST response will look like this
 ## 400 Error
 If a configuration error has occured i.e. you did not set the KEY_VAULT app config OR/AND you did not send a valid secret name you will receive a 400 error. Refer back to Function Usage section.
 
+## 401 Unauthorized
+The Function API Key you are using isn't valid. A valid request URL will look something like this:
+https://sshkeygenerator.azurewebsites.net/api/SSHKeyGen?code=Qq96Tp5m/kLuM5gDyoq7BozqNu9N1tjWP2mWcM1P48fGdRnYxUGGcQ==
+
 ## 500 Error
 Something has gone terribly wrong and hasn't been caught properly. It is most likely that the correct Access Policy has not been applied to allow Functions to SET Key Vault secrets. Refer back to Function Usage section.
