@@ -10,7 +10,8 @@ variable "location" {
   description = "Azure Location of resources"
 }
 
-variable "functionapp" {
+variable "function_app_dir" {
     type = string
-    default = "../../Functions/published/v1-build.zip"
+    default = "../../Functions/published/latest-build.zip"
+    description = "Directory where function app is located"
 }
