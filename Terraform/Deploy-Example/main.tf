@@ -9,6 +9,7 @@ data "azurerm_client_config" "current" {
 resource "random_string" "vault_key" {
   length           = 16
   special          = true
+  number           = false
   override_special = "-"
 }
 
@@ -86,7 +87,7 @@ resource "azurerm_key_vault" "example" {
     object_id = azurerm_function_app.example.identity.0.principal_id
 
     secret_permissions = [
-      "set"
+      "set", "list", "get"
     ]
   }
 }

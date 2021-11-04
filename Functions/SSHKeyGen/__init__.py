@@ -21,7 +21,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             pass
         else:
             secretName = req_body.get('secretName')
-    logging.info(vaultName+" "+secretName)
+
     if secretName and vaultName:
         logging.info('Entered the function')
         logging.info('Set variables')
@@ -31,6 +31,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         pubkeyname = secretName + "pub"
         privkeyname = secretName + "priv"
         https_regex = "((\w+:\/\/)[-a-zA-Z0-9:@;?&=\/%\+\.\*!'\(\),\$_\{\}\^~\`#|]+)"
+
+        if checkSecretExists(client, pubkeyname):
+            logging.info('Secret already exists')
+            return func.HttpResponse(json.dumps({'publicKeySecretName': pubkeyname, 'publicKeySecretURL': client.get_secret(pubkeyname).id, 'privateKeySecretName': privkeyname, 'privateKeySecretURL': client.get_secret(privkeyname).id}))
 
         logging.info("Generate keypair")
         keypair = rsa.generate_private_key(backend=default_backend(), public_exponent=65537, key_size=2048)
@@ -58,3 +62,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
              '''Bad request. Maybe you didn't set your vault name, or sent an incorrectly formatted secret name. Try and POST {"secretName": "test"} or check your application settings''',
              status_code=400
         )
+
+def checkSecretExists(client, secretName):
+    try:
+        client.get_secret(secretName)
+    except:
+        logging.info(client.get_secret(secretName))
+        return False
+    logging.info('Return true if the secret exists')
+    return True
