@@ -1,5 +1,5 @@
 module "deploy-example" {
-    source = "../Deploy-Example"
+    source = "git::https://github.com/mattjrick/SSHKeyGen-TF-Module.git"
 }
 
 data "curl" "postSecrets" {
